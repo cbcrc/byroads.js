@@ -1,6 +1,13 @@
 # url-parser
 Mostly code from Crossroads.js (thanks!) to extract the "matching of url pattern" (Pattern Lexer) part.
 
+
+TODO:
+- See if https://github.com/snd/url-pattern would be a better option... and if it works on all browsers.
+
+
+
+
 ##Examples (taken from the Crossroads.js website)
 
 ###String rule with param: '/news/{id}'
