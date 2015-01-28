@@ -1,0 +1,15 @@
+/** @license
+ * ::NAME:: <::HOMEPAGE::>
+ * Author: ::AUTHOR:: | ::LICENSE:: License
+ * v::VERSION_NUMBER:: (::BUILD_DATE::)
+ */
+
+/**
+ * Most of the code comes from Crossroads.js
+ */
+ 
+/** @license
+ * crossroads <http://millermedeiros.github.com/crossroads.js/>
+ * Author: Miller Medeiros | MIT License
+ * v0.12.0 (2013/01/21 13:47)
+ */

@@ -1,0 +1,36 @@
+{
+    "name" : "url-parser",
+    "description" : "Simple url parsing. To be used for client-side routers for example.",
+    "keywords" : ["routes", "url", "parser", "lexer", "router"],
+    "homepage" : "https://github.com/W3Max/url-parser",
+    "version" : "0.1.0",
+    "author" : {
+        "name" : "Maxime Séguin",
+        "url" : "https://twitter.com/w3max"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/W3Max/url-parser.git"
+    },
+    "main" : "dist/url-parser.js",
+    "bugs" : {
+        "url" : "https://github.com/W3Max/url-parser/issues"
+    },
+    "licenses" : [
+        {
+            "type" : "MIT",
+            "url" : "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ],
+    "dependencies" : {
+        
+    },
+    "devDependencies" : {
+        "uglify-js" : "~1.2.3",
+        "jasmine-node" : "1.0.x"
+    },
+    "scripts" : {
+        "pretest" : "node build",
+        "test" : "jasmine-node tests/spec"
+    }
+}
