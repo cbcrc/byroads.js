@@ -4,6 +4,8 @@ Url pattern matching (lexer) - Code mostly extracted from Crossroads.js (thanks!
 ####TODO:
 - See if https://github.com/snd/url-pattern would be a better option... and if it works on most browsers.
 - Make the tests work
+- Switch from jasmine to mocha
+- Build with gulp
 
 ####Examples (taken from the Crossroads.js website)
 
