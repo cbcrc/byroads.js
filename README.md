@@ -1,12 +1,9 @@
 # url-parser
 Url pattern matching (lexer) - Code mostly extracted from Crossroads.js (thanks!)
 
-
-TODO:
+####TODO:
 - See if https://github.com/snd/url-pattern would be a better option... and if it works on most browsers.
-
-
-
+- Make the tests work
 
 ####Examples (taken from the Crossroads.js website)
 
