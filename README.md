@@ -7,6 +7,7 @@ Code mostly extracted from [Crossroads.js](http://millermedeiros.github.io/cross
 - Make the tests work
 - Switch from jasmine to mocha
 - Build with gulp
+- Add tests result on github page
 
 ####Examples (taken from the Crossroads.js website)
 
