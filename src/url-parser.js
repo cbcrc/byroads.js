@@ -32,10 +32,6 @@
         },
 
         removeAllRoutes : function () {
-            var n = this.getNumRoutes();
-            while (n--) {
-                this._routes[n]._destroy();
-            }
             this._routes.length = 0;
         },
 

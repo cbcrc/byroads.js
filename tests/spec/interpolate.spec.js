@@ -9,7 +9,6 @@ var urlParser = urlParser || require('../../dist/url-parser');
 describe('Route.interpolate()', function(){
 
     afterEach(function(){
-        urlParser.resetState();
         urlParser.removeAllRoutes();
     });
 

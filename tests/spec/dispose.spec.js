@@ -2,30 +2,36 @@
 
 //for node
 var urlParser = urlParser || require('../../dist/url-parser');
+var jasmineHelper = jasmineHelper || require('../lib/jasmine-jasmineHelper');
 //end node
 
 
+describe('Route.dispose()', function() {
 
-describe('Route.dispose()', function(){
-
-    afterEach(function(){
-        urlParser.resetState();
+    afterEach(function() {
         urlParser.removeAllRoutes();
     });
 
 
-    it('should dispose route', function(){
-        var count = 0;
+    it('should dispose route', function() {
 
-        var a = urlParser.addRoute('{foo}/{bar}');
-        a.matched.add(function(foo, bar){
-            count++;
-        });
+        var r1 = urlParser.addRoute('{foo}/{bar}');
+        expect(urlParser.getNumRoutes()).toEqual(1);
 
-        urlParser.parse('foo/bar');
-        a.dispose();
-        urlParser.parse('dolor/amet');
-        expect( count ).toBe( 1 );
+        var matches = jasmineHelper.getMatches(urlParser, 'foo/bar');
+        expect(matches).toBeDefined();
+        expect(matches.length).toEqual(1);
+        var matchedRoutes = jasmineHelper.toRoutes(matches);
+        expect(matchedRoutes).toContain(r1);
+
+        r1.dispose();
+
+        expect(urlParser.getNumRoutes()).toEqual(0);
+
+        matches = jasmineHelper.getMatches(urlParser, 'foo/bar');
+        expect(matches).toBeDefined();
+        expect(matches.length).toEqual(0);
+
     });
 
 });

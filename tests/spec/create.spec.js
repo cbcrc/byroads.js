@@ -2,9 +2,8 @@
 
 //for node
 var urlParser = urlParser || require('../../dist/url-parser');
+var jasmineHelper = jasmineHelper || require('../lib/jasmine-jasmineHelper');
 //end node
-
-
 
 describe('urlParser.create()', function(){
 
@@ -16,47 +15,61 @@ describe('urlParser.create()', function(){
     describe('new Router instance', function(){
 
         it('should work in new instances', function(){
-            var t1;
-            var cr = urlParser.create();
+            var parser = urlParser.create();
 
-            cr.addRoute('/{foo}', function(foo){
-                t1 = foo;
-            });
-            cr.parse('/lorem_ipsum');
+            var r1 = parser.addRoute('/{foo}');
 
-            expect( t1 ).toBe( 'lorem_ipsum' );
+            var matches = jasmineHelper.getMatches(parser, '/lorem_ipsum');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(1);
+            expect(params[0]).toEqual('lorem_ipsum');
         });
 
 
         it('shouldn\'t affect static instance', function(){
-            var t1;
-            var cr = urlParser.create();
+            var parser = urlParser.create();
 
-            cr.addRoute('/{foo}', function(foo){
-                t1 = foo;
-            });
-            urlParser.addRoute('/{foo}', function(foo){
-                t1 = 'error!';
-            });
-            cr.parse('/lorem_ipsum');
+            var r2 = urlParser.addRoute('/{foo}');
+            var r1 = parser.addRoute('/{foo}');
 
-            expect( t1 ).toBe( 'lorem_ipsum' );
+            expect(urlParser.getNumRoutes()).toEqual(1);
+            expect(parser.getNumRoutes()).toEqual(1);
+
+            var matches = jasmineHelper.getMatches(parser, '/lorem_ipsum');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(1);
+            expect(params[0]).toEqual('lorem_ipsum');
         });
 
 
         it('shouldn\'t be affected by static instance', function(){
-            var t1;
-            var cr = urlParser.create();
+            var parser = urlParser.create();
 
-            urlParser.addRoute('/{foo}', function(foo){
-                t1 = foo;
-            });
-            cr.addRoute('/{foo}', function(foo){
-                t1 = 'error!';
-            });
-            urlParser.parse('/lorem_ipsum');
+            var r1 = urlParser.addRoute('/{foo}');
+            var r2 = parser.addRoute('/{foo}');
 
-            expect( t1 ).toBe( 'lorem_ipsum' );
+            expect(urlParser.getNumRoutes()).toEqual(1);
+            expect(parser.getNumRoutes()).toEqual(1);
+
+            var matches = jasmineHelper.getMatches(urlParser, '/lorem_ipsum');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(1);
+            expect(params[0]).toEqual('lorem_ipsum');
         });
 
 

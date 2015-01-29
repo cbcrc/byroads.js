@@ -17,7 +17,6 @@ describe('Match', function(){
 
     afterEach(function(){
         urlParser.removeAllRoutes();
-        urlParser.resetState();
         urlParser.shouldTypecast = _prevTypecast;
         urlParser.ignoreCase = _prevCase;
     });
