@@ -7,7 +7,7 @@
 
 
 # url-parser
-Url pattern matching (lexer) based on priority and the order they were added.
+Url pattern matching (lexer) that return result(s) based the order they were added or a overriding priority.
 
 
 Code mostly extracted from [Crossroads.js](http://millermedeiros.github.io/crossroads.js/), thanks!
