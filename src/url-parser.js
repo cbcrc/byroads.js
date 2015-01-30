@@ -48,10 +48,13 @@
         },
 
         getMatchedRoutes : function (request, returnAllMatchedRoutes) {
+            request = request || '';
+
             var res = [],
                 routes = this._routes,
                 n = routes.length,
                 route;
+                
             //should be decrement loop since higher priorities are added at the end of array
             while (route = routes[--n]) {
                 if ((!res.length || returnAllMatchedRoutes) && route.match(request)) {

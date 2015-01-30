@@ -70,101 +70,94 @@ describe('getMatchedRoutes()', function() {
             expect(params[1]).toEqual('ullamcor');
         });
 
-        it('should dispatch matched signal', function() {
-            var t1, t2, t3;
-
-            var a = urlParser.addRoute('/{foo}');
-            a.matched.add(function(foo) {
-                t1 = foo;
-            });
-
-            var b = urlParser.addRoute('/{foo}/{bar}');
-            b.matched.add(function(foo, bar) {
-                t2 = foo;
-                t3 = bar;
-            });
-
-            getMatchedRoutes('/lorem_ipsum');
-            getMatchedRoutes('/maecennas/ullamcor');
-
-            expect(t1).toBe('lorem_ipsum');
-            expect(t2).toBe('maecennas');
-            expect(t3).toBe('ullamcor');
-        });
-
         it('should handle a word separator that isn\'t necessarily /', function() {
-            var t1, t2, t3, t4;
+            var r1 = urlParser.addRoute('/{foo}_{bar}');
+            var r2 = urlParser.addRoute('/{foo}-{bar}');
 
-            var a = urlParser.addRoute('/{foo}_{bar}');
-            a.matched.add(function(foo, bar) {
-                t1 = foo;
-                t2 = bar;
-            });
+            var matches = jasmineHelper.getMatches(urlParser, '/lorem_ipsum');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toEqual('lorem');
+            expect(params[1]).toEqual('ipsum');
 
-            var b = urlParser.addRoute('/{foo}-{bar}');
-            b.matched.add(function(foo, bar) {
-                t3 = foo;
-                t4 = bar;
-            });
-
-            getMatchedRoutes('/lorem_ipsum');
-            getMatchedRoutes('/maecennas-ullamcor');
-
-            expect(t1).toBe('lorem');
-            expect(t2).toBe('ipsum');
-            expect(t3).toBe('maecennas');
-            expect(t4).toBe('ullamcor');
+            matches = jasmineHelper.getMatches(urlParser, '/maecennas-ullamcor');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r2);
+            params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toEqual('maecennas');
+            expect(params[1]).toEqual('ullamcor');
         });
 
         it('should handle empty routes', function() {
-            var calls = 0;
+            var r1 = urlParser.addRoute();
 
-            var a = urlParser.addRoute();
-            a.matched.add(function(foo, bar) {
-                expect(foo).toBeUndefined();
-                expect(bar).toBeUndefined();
-                calls++;
-            });
+            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
 
-            getMatchedRoutes('/123/456');
-            getMatchedRoutes('/maecennas/ullamcor');
-            getMatchedRoutes('');
+            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
 
-            expect(calls).toBe(1);
+            matches = jasmineHelper.getMatches(urlParser, '');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(0);
         });
 
         it('should handle empty strings', function() {
-            var calls = 0;
+            var r1 = urlParser.addRoute();
 
-            var a = urlParser.addRoute('');
-            a.matched.add(function(foo, bar) {
-                expect(foo).toBeUndefined();
-                expect(bar).toBeUndefined();
-                calls++;
-            });
+            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
 
-            getMatchedRoutes('/123/456');
-            getMatchedRoutes('/maecennas/ullamcor');
-            getMatchedRoutes('');
+            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
 
-            expect(calls).toBe(1);
+            matches = jasmineHelper.getMatches(urlParser, '');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(0);
         });
 
         it('should route `null` as empty string', function() {
-            var calls = 0;
+            var r1 = urlParser.addRoute('');
 
-            var a = urlParser.addRoute('');
-            a.matched.add(function(foo, bar) {
-                expect(foo).toBeUndefined();
-                expect(bar).toBeUndefined();
-                calls++;
-            });
+            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
 
-            getMatchedRoutes('/123/456');
-            getMatchedRoutes('/maecennas/ullamcor');
-            getMatchedRoutes();
+            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
 
-            expect(calls).toBe(1);
+            matches = jasmineHelper.getMatches(urlParser);
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(0);
         });
     });
 
@@ -173,37 +166,37 @@ describe('getMatchedRoutes()', function() {
     describe('optional params', function() {
 
         it('should capture optional params', function() {
-            var calls = 0;
+            var r1 = urlParser.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
 
-            var a = urlParser.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
-            a.matched.add(function(a, b, c, d) {
-                expect(a).toBe('lorem');
-                expect(b).toBe('123');
-                expect(c).toBe('true');
-                expect(d).toBe('false');
-                calls++;
-            });
-
-            getMatchedRoutes('foo/lorem/123/true/false');
-
-            expect(calls).toBe(1);
+            var matches = jasmineHelper.getMatches(urlParser, 'foo/lorem/123/true/false');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(4);
+            expect(params[0]).toEqual('lorem');
+            expect(params[1]).toEqual('123');
+            expect(params[2]).toEqual('true');
+            expect(params[3]).toEqual('false');
         });
 
         it('should only pass matched params', function() {
-            var calls = 0;
+            var r1 = urlParser.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
 
-            var a = urlParser.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
-            a.matched.add(function(a, b, c, d) {
-                expect(a).toBe('lorem');
-                expect(b).toBe('123');
-                expect(c).toBeUndefined();
-                expect(d).toBeUndefined();
-                calls++;
-            });
-
-            getMatchedRoutes('foo/lorem/123');
-
-            expect(calls).toBe(1);
+            var matches = jasmineHelper.getMatches(urlParser, 'foo/lorem/123');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(4);
+            expect(params[0]).toEqual('lorem');
+            expect(params[1]).toEqual('123');
+            expect(params[2]).toBeUndefined();
+            expect(params[3]).toBeUndefined();
         });
 
     });
@@ -213,34 +206,38 @@ describe('getMatchedRoutes()', function() {
     describe('regex route', function() {
 
         it('should capture groups', function() {
-            var calls = 0;
+            //capturing groups becomes params
+            var r1 = urlParser.addRoute(/^\/[0-9]+\/([0-9]+)$/);
 
-            var a = urlParser.addRoute(/^\/[0-9]+\/([0-9]+)$/); //capturing groups becomes params
-            a.matched.add(function(foo, bar) {
-                expect(foo).toBe('456');
-                expect(bar).toBeUndefined();
-                calls++;
-            });
+            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(1);
+            expect(params[0]).toBe('456');
 
-            getMatchedRoutes('/123/456');
-            getMatchedRoutes('/maecennas/ullamcor');
-
-            expect(calls).toBe(1);
+            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(0);
         });
 
         it('should capture even empty groups', function() {
-            var calls = 0;
+            //capturing groups becomes params
+            var r1 = urlParser.addRoute(/^\/()\/([0-9]+)$/);
 
-            var a = urlParser.addRoute(/^\/()\/([0-9]+)$/); //capturing groups becomes params
-            a.matched.add(function(foo, bar) {
-                expect(foo).toBe('');
-                expect(bar).toBe('456');
-                calls++;
-            });
-
-            getMatchedRoutes('//456');
-
-            expect(calls).toBe(1);
+            var matches = jasmineHelper.getMatches(urlParser, '//456');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toBe('');
+            expect(params[1]).toBe('456');
         });
     });
 
@@ -251,41 +248,41 @@ describe('getMatchedRoutes()', function() {
         it('should typecast values if shouldTypecast is set to true', function() {
             urlParser.shouldTypecast = true;
 
-            var calls = 0;
+            var r1 = urlParser.addRoute('{a}/{b}/{c}/{d}/{e}/{f}');
 
-            var a = urlParser.addRoute('{a}/{b}/{c}/{d}/{e}/{f}');
-            a.matched.add(function(a, b, c, d, e, f) {
-                expect(a).toBe('lorem');
-                expect(b).toBe(123);
-                expect(c).toBe(true);
-                expect(d).toBe(false);
-                expect(e).toBe(null);
-                expect(f).toBe(undefined);
-                calls++;
-            });
-
-            getMatchedRoutes('lorem/123/true/false/null/undefined');
-
-            expect(calls).toBe(1);
+            var matches = jasmineHelper.getMatches(urlParser, 'lorem/123/true/false/null/undefined');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(6);
+            expect(params[0]).toBe('lorem');
+            expect(params[1]).toBe(123);
+            expect(params[2]).toBe(true);
+            expect(params[3]).toBe(false);
+            expect(params[4]).toBe(null);
+            expect(params[5]).toBe(undefined);
         });
 
         it('should not typecast if shouldTypecast is set to false', function() {
             urlParser.shouldTypecast = false;
 
-            var calls = 0;
+            var r1 = urlParser.addRoute('{lorem}/{ipsum}/{dolor}/{sit}');
 
-            var a = urlParser.addRoute('{lorem}/{ipsum}/{dolor}/{sit}');
-            a.matched.add(function(a, b, c, d) {
-                expect(a).toBe('lorem');
-                expect(b).toBe('123');
-                expect(c).toBe('true');
-                expect(d).toBe('false');
-                calls++;
-            });
-
-            getMatchedRoutes('lorem/123/true/false');
-
-            expect(calls).toBe(1);
+            var matches = jasmineHelper.getMatches(urlParser, 'lorem/123/true/false');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(4);
+            expect(params[0]).toBe('lorem');
+            expect(params[1]).toBe('123');
+            expect(params[2]).toBe('true');
+            expect(params[3]).toBe('false');
         });
 
     });
@@ -294,13 +291,10 @@ describe('getMatchedRoutes()', function() {
     describe('rules.normalize_', function() {
 
         it('should normalize params before dispatching signal', function() {
-
-            var t1, t2, t3, t4, t5, t6, t7, t8;
-
             //based on: https://github.com/millermedeiros/urlParser.js/issues/21
 
-            var myRoute = urlParser.addRoute('{a}/{b}/:c:/:d:');
-            myRoute.rules = {
+            var r1 = urlParser.addRoute('{a}/{b}/:c:/:d:');
+            r1.rules = {
                 a: ['news', 'article'],
                 b: /[\-0-9a-zA-Z]+/,
                 request_: /\/[0-9]+\/|$/,
@@ -319,39 +313,53 @@ describe('getMatchedRoutes()', function() {
                     return ['news', id]; //return params
                 }
             };
-            myRoute.matched.addOnce(function(a, b) {
-                t1 = a;
-                t2 = b;
-            });
-            getMatchedRoutes('news/111/lorem-ipsum');
 
-            myRoute.matched.addOnce(function(a, b) {
-                t3 = a;
-                t4 = b;
-            });
-            getMatchedRoutes('news/foo/222/lorem-ipsum');
+            var matches = jasmineHelper.getMatches(urlParser, 'news/111/lorem-ipsum');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            var matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            var params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toBe('news');
+            expect(params[1]).toBe('111');
 
-            myRoute.matched.addOnce(function(a, b) {
-                t5 = a;
-                t6 = b;
-            });
-            getMatchedRoutes('news/333');
 
-            myRoute.matched.addOnce(function(a, b) {
-                t7 = a;
-                t8 = b;
-            });
-            getMatchedRoutes('article/news/444');
+            matches = jasmineHelper.getMatches(urlParser, 'news/foo/222/lorem-ipsum');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toBe('news');
+            expect(params[1]).toBe('222');
 
-            expect(t1).toBe('news');
-            expect(t2).toBe('111');
-            expect(t3).toBe('news');
-            expect(t4).toBe('222');
-            expect(t5).toBe('news');
-            expect(t6).toBe('333');
-            expect(t7).toBe('news');
-            expect(t8).toBe('444');
 
+            matches = jasmineHelper.getMatches(urlParser, 'news/333');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toBe('news');
+            expect(params[1]).toBe('333');
+
+
+            matches = jasmineHelper.getMatches(urlParser, 'article/news/444');
+            expect(matches).toBeDefined();
+            expect(matches.length).toEqual(1);
+            matchedRoutes = jasmineHelper.toRoutes(matches);
+            expect(matchedRoutes).toContain(r1);
+            params = matches[0].params;
+            expect(params).toBeDefined();
+            expect(params.length).toEqual(2);
+            expect(params[0]).toBe('news');
+            expect(params[1]).toBe('444');
         });
 
     });
