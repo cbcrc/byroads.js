@@ -1,3 +1,11 @@
+[![Build Status](https://travis-ci.org/W3Max/url-parser.svg?branch=master)](https://travis-ci.org/W3Max/url-parser)
+
+
+
+
+
+
+
 # url-parser
 Url pattern matching (lexer) based on priority and the order they were added.
 
