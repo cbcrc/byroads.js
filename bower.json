@@ -1,0 +1,23 @@
+{
+  "name": "byroads.js",
+  "version": "0.1.0",
+  "authors": [
+    "W3Max"
+  ],
+  "description": "",
+  "main": "dist/byroads.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+
+  }
+}

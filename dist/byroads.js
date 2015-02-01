@@ -1,7 +1,7 @@
 /** @license
- * byroad <https://github.com/W3Max/byroad>
+ * byroads.js <https://github.com/W3Max/byroads.js>
  * Author: Maxime Séguin | MIT License
- * v0.1.0 (2015/02/01 18:01)
+ * v0.1.0 (2015/02/01 19:41)
  */
 
 /**

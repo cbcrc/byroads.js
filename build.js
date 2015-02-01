@@ -2,8 +2,8 @@
 var FILE_ENCODING = 'utf-8',
     SRC_DIR = 'src',
     DIST_DIR = 'dist',
-    DIST_NAME = 'byroad.js',
-    DIST_MIN_NAME = 'byroad.min.js',
+    DIST_NAME = 'byroads.js',
+    DIST_MIN_NAME = 'byroads.min.js',
     DIST_PATH = DIST_DIR +'/'+ DIST_NAME,
     DIST_MIN_PATH = DIST_DIR +'/'+ DIST_MIN_NAME;
 
@@ -37,7 +37,7 @@ function build(){
         deploy = tmpl(wrapper, {
             LICENSE       : readFile(SRC_DIR + '/license.txt'),
             INTRO_JS      : readFile(SRC_DIR + '/intro.js'),
-            URLPARSER_JS : readFile(SRC_DIR + '/byroad.js'),
+            URLPARSER_JS : readFile(SRC_DIR + '/byroads.js'),
             ROUTE_JS      : readFile(SRC_DIR + '/route.js'),
             LEXER_JS      : readFile(SRC_DIR + '/pattern-lexer.js')
         }, /\/\/::(\w+)::\/\//g);

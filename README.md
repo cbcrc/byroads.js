@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/W3Max/byroad.svg?branch=master)](https://travis-ci.org/W3Max/byroad)
+[![Build Status](https://travis-ci.org/W3Max/byroads.svg?branch=master)](https://travis-ci.org/W3Max/byroads)
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-# byroad
+# byroads
 Url pattern matching (lexer) that return result(s) based the order they were added or a overriding priority.
 
 

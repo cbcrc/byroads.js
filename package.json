@@ -1,8 +1,8 @@
 {
-    "name" : "byroad",
-    "description" : "Simple url parsing. To be used for client-side routers for example.",
+    "name" : "byroads.js",
+    "description" : "Url pattern matching (lexer) that return result(s) based the order they were added or a overriding priority.",
     "keywords" : ["routes", "url", "parser", "lexer", "router"],
-    "homepage" : "https://github.com/W3Max/byroad",
+    "homepage" : "https://github.com/W3Max/byroads.js",
     "version" : "0.1.0",
     "author" : {
         "name" : "Maxime Séguin",
@@ -10,11 +10,11 @@
     },
     "repository" : {
         "type" : "git",
-        "url" : "https://github.com/W3Max/byroad.git"
+        "url" : "https://github.com/W3Max/byroads.js.git"
     },
-    "main" : "dist/byroad.js",
+    "main" : "dist/byroads.js",
     "bugs" : {
-        "url" : "https://github.com/W3Max/byroad/issues"
+        "url" : "https://github.com/W3Max/byroads.js/issues"
     },
     "licenses" : [
         {
