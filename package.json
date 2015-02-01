@@ -1,8 +1,8 @@
 {
-    "name" : "url-parser",
+    "name" : "byroad",
     "description" : "Simple url parsing. To be used for client-side routers for example.",
     "keywords" : ["routes", "url", "parser", "lexer", "router"],
-    "homepage" : "https://github.com/W3Max/url-parser",
+    "homepage" : "https://github.com/W3Max/byroad",
     "version" : "0.1.0",
     "author" : {
         "name" : "Maxime Séguin",
@@ -10,11 +10,11 @@
     },
     "repository" : {
         "type" : "git",
-        "url" : "https://github.com/W3Max/url-parser.git"
+        "url" : "https://github.com/W3Max/byroad.git"
     },
-    "main" : "dist/url-parser.js",
+    "main" : "dist/byroad.js",
     "bugs" : {
-        "url" : "https://github.com/W3Max/url-parser/issues"
+        "url" : "https://github.com/W3Max/byroad/issues"
     },
     "licenses" : [
         {

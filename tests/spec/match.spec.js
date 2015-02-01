@@ -1,7 +1,7 @@
 /*jshint onevar:false */
 
 //for node
-var urlParser = urlParser || require('../../dist/url-parser');
+var urlParser = urlParser || require('../../dist/byroad');
 //end node
 
 

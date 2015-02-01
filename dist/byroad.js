@@ -1,7 +1,7 @@
 /** @license
- * url-parser <https://github.com/W3Max/url-parser>
+ * byroad <https://github.com/W3Max/byroad>
  * Author: Maxime Séguin | MIT License
- * v0.1.0 (2015/01/28 22:08)
+ * v0.1.0 (2015/02/01 18:01)
  */
 
 /**
@@ -143,10 +143,6 @@ var factory = function () {
         },
 
         removeAllRoutes : function () {
-            var n = this.getNumRoutes();
-            while (n--) {
-                this._routes[n]._destroy();
-            }
             this._routes.length = 0;
         },
 
@@ -163,10 +159,13 @@ var factory = function () {
         },
 
         getMatchedRoutes : function (request, returnAllMatchedRoutes) {
+            request = request || '';
+
             var res = [],
                 routes = this._routes,
                 n = routes.length,
                 route;
+                
             //should be decrement loop since higher priorities are added at the end of array
             while (route = routes[--n]) {
                 if ((!res.length || returnAllMatchedRoutes) && route.match(request)) {
