@@ -1,15 +1,15 @@
 
-    // UrlParser --------
+    // Byroads --------
     //====================
 
     /**
      * @constructor
      */
-    function UrlParser() {
+    function Byroads() {
         this._routes = [];
     }
 
-    UrlParser.prototype = {
+    Byroads.prototype = {
 
         ignoreCase : true,
 
@@ -18,7 +18,7 @@
         normalizeFn : null,
 
         create : function () {
-            return new UrlParser();
+            return new Byroads();
         },
 
         addRoute : function (pattern, priority) {
@@ -71,18 +71,18 @@
         },
 
         toString : function () {
-            return '[urlParser numRoutes:'+ this.getNumRoutes() +']';
+            return '[byroads numRoutes:'+ this.getNumRoutes() +']';
         }
     };
 
     //"static" instance
-    urlParser = new UrlParser();
-    urlParser.VERSION = '::VERSION_NUMBER::';
+    byroads = new Byroads();
+    byroads.VERSION = '::VERSION_NUMBER::';
 
-    urlParser.NORM_AS_ARRAY = function (req, vals) {
+    byroads.NORM_AS_ARRAY = function (req, vals) {
         return [vals.vals_];
     };
 
-    urlParser.NORM_AS_OBJECT = function (req, vals) {
+    byroads.NORM_AS_OBJECT = function (req, vals) {
         return [vals];
     };
