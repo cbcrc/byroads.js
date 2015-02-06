@@ -1,5 +1,5 @@
 //::LICENSE:://
-(function () {
+;(function () {
 var factory = function () {
 //::INTRO_JS:://
 //::URLPARSER_JS:://

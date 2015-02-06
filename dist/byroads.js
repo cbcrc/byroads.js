@@ -1,7 +1,7 @@
 /** @license
  * byroads.js <https://github.com/W3Max/byroads.js>
  * Author: Maxime Séguin | MIT License
- * v0.1.0 (2015/02/06 21:15)
+ * v0.1.0 (2015/02/06 21:16)
  */
 
 /**
@@ -13,7 +13,7 @@
  * Author: Miller Medeiros | MIT License
  * v0.12.0 (2013/01/21 13:47)
  */
-(function () {
+;(function () {
 var factory = function () {
 
     var urlParser,
