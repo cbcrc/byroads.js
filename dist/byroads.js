@@ -1,7 +1,7 @@
 /** @license
  * byroads.js <https://github.com/W3Max/byroads.js>
  * Author: Maxime Séguin | MIT License
- * v0.1.0 (2015/02/06 21:16)
+ * v0.1.0 (2015/02/06 21:22)
  */
 
 /**
@@ -16,7 +16,7 @@
 ;(function () {
 var factory = function () {
 
-    var urlParser,
+    var byroads,
         _hasOptionalGroupBug,
         UNDEF;
 
@@ -360,7 +360,7 @@ var factory = function () {
     // Pattern Lexer ------
     //=====================
 
-    UrlParser.prototype.patternLexer = (function () {
+    Byroads.prototype.patternLexer = (function () {
 
         var
             //match chars that should be escaped on string regexp
@@ -583,7 +583,7 @@ var factory = function () {
     }());
 
 
-    return urlParser;
+    return byroads;
 };
 
 if (typeof define === 'function' && define.amd) {
@@ -592,7 +592,7 @@ if (typeof define === 'function' && define.amd) {
     module.exports = factory(require());
 } else {
     /*jshint sub:true */
-    window['urlParser'] = factory();
+    window['byroads'] = factory();
 }
 
 }());

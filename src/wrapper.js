@@ -5,7 +5,7 @@ var factory = function () {
 //::URLPARSER_JS:://
 //::ROUTE_JS:://
 //::LEXER_JS:://
-    return urlParser;
+    return byroads;
 };
 
 if (typeof define === 'function' && define.amd) {
@@ -14,7 +14,7 @@ if (typeof define === 'function' && define.amd) {
     module.exports = factory(require());
 } else {
     /*jshint sub:true */
-    window['urlParser'] = factory();
+    window['byroads'] = factory();
 }
 
 }());

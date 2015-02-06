@@ -2,7 +2,7 @@
     // Pattern Lexer ------
     //=====================
 
-    UrlParser.prototype.patternLexer = (function () {
+    Byroads.prototype.patternLexer = (function () {
 
         var
             //match chars that should be escaped on string regexp
