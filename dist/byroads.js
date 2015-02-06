@@ -1,7 +1,7 @@
 /** @license
  * byroads.js <https://github.com/W3Max/byroads.js>
  * Author: Maxime Séguin | MIT License
- * v0.1.0 (2015/02/01 19:41)
+ * v0.1.0 (2015/02/06 21:15)
  */
 
 /**
@@ -110,17 +110,17 @@ var factory = function () {
     }
 
 
-    // UrlParser --------
+    // Byroads --------
     //====================
 
     /**
      * @constructor
      */
-    function UrlParser() {
+    function Byroads() {
         this._routes = [];
     }
 
-    UrlParser.prototype = {
+    Byroads.prototype = {
 
         ignoreCase : true,
 
@@ -129,7 +129,7 @@ var factory = function () {
         normalizeFn : null,
 
         create : function () {
-            return new UrlParser();
+            return new Byroads();
         },
 
         addRoute : function (pattern, priority) {
@@ -182,19 +182,19 @@ var factory = function () {
         },
 
         toString : function () {
-            return '[urlParser numRoutes:'+ this.getNumRoutes() +']';
+            return '[byroads numRoutes:'+ this.getNumRoutes() +']';
         }
     };
 
     //"static" instance
-    urlParser = new UrlParser();
-    urlParser.VERSION = '0.1.0';
+    byroads = new Byroads();
+    byroads.VERSION = '0.1.0';
 
-    urlParser.NORM_AS_ARRAY = function (req, vals) {
+    byroads.NORM_AS_ARRAY = function (req, vals) {
         return [vals.vals_];
     };
 
-    urlParser.NORM_AS_OBJECT = function (req, vals) {
+    byroads.NORM_AS_OBJECT = function (req, vals) {
         return [vals];
     };
 
