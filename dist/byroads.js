@@ -1,7 +1,7 @@
 /** @license
  * byroads.js <https://github.com/W3Max/byroads.js>
  * Author: Maxime Séguin | MIT License
- * v0.1.0 (2015/02/06 21:22)
+ * v0.1.0 (2015/02/06 21:44)
  */
 
 /**
@@ -13,8 +13,20 @@
  * Author: Miller Medeiros | MIT License
  * v0.12.0 (2013/01/21 13:47)
  */
-;(function () {
-var factory = function () {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like environments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+  }
+}(this, function () {
 
     var byroads,
         _hasOptionalGroupBug,
@@ -584,16 +596,4 @@ var factory = function () {
 
 
     return byroads;
-};
-
-if (typeof define === 'function' && define.amd) {
-    define([], factory);
-} else if (typeof module !== 'undefined' && module.exports) { //Node
-    module.exports = factory(require());
-} else {
-    /*jshint sub:true */
-    window['byroads'] = factory();
-}
-
-}());
-
+}));
