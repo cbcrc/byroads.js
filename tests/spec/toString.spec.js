@@ -1,24 +1,24 @@
 /*jshint onevar:false */
 
 //for node
-var urlParser = urlParser || require('../../dist/byroads');
+var byroads = byroads || require('../../dist/byroads');
 //end node
 
 
 
-describe('urlParser.toString() and route.toString()', function(){
+describe('byroads.toString() and route.toString()', function(){
 
     afterEach(function(){
-        urlParser.removeAllRoutes();
+        byroads.removeAllRoutes();
     });
 
 
 
     it('should help debugging', function(){
         var count = 0, requests = [];
-        var a = urlParser.addRoute('/{foo}_{bar}');
+        var a = byroads.addRoute('/{foo}_{bar}');
 
-        expect( urlParser.toString() ).toBe( '[urlParser numRoutes:1]' );
+        expect( byroads.toString() ).toBe( '[byroads numRoutes:1]' );
         expect( a.toString() ).toBe( '[Route pattern:"/{foo}_{bar}"]' );
     });
 

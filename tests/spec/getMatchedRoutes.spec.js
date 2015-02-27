@@ -1,8 +1,8 @@
 /*jshint onevar:false */
 
 //for node
-var urlParser = urlParser || require('../../dist/byroads');
-var jasmineHelper = jasmineHelper || require('../lib/jasmine-jasmineHelper');
+var byroads = byroads || require('../../dist/byroads');
+var jasmineHelper = jasmineHelper || require('../lib/jasmine-helper');
 //end node
 
 describe('getMatchedRoutes()', function() {
@@ -11,13 +11,13 @@ describe('getMatchedRoutes()', function() {
 
 
     beforeEach(function() {
-        _prevTypecast = urlParser.shouldTypecast;
+        _prevTypecast = byroads.shouldTypecast;
     });
 
 
     afterEach(function() {
-        urlParser.removeAllRoutes();
-        urlParser.shouldTypecast = _prevTypecast;
+        byroads.removeAllRoutes();
+        byroads.shouldTypecast = _prevTypecast;
     });
 
 
@@ -27,28 +27,28 @@ describe('getMatchedRoutes()', function() {
     describe('simple string route', function() {
 
         it('should route basic strings', function() {
-            var route = urlParser.addRoute('/foo');
+            var route = byroads.addRoute('/foo');
 
-            var matchedRoutes = jasmineHelper.getMatchedRoutes(urlParser, '/bar');
+            var matchedRoutes = jasmineHelper.getMatchedRoutes(byroads, '/bar');
             expect(matchedRoutes).toBeDefined();
             expect(matchedRoutes.length).toEqual(0);
 
-            matchedRoutes = jasmineHelper.getMatchedRoutes(urlParser, '/foo');
+            matchedRoutes = jasmineHelper.getMatchedRoutes(byroads, '/foo');
             expect(matchedRoutes).toBeDefined();
             expect(matchedRoutes.length).toEqual(1);
             expect(matchedRoutes).toContain(route);
 
-            matchedRoutes = jasmineHelper.getMatchedRoutes(urlParser, 'foo');
+            matchedRoutes = jasmineHelper.getMatchedRoutes(byroads, 'foo');
             expect(matchedRoutes).toBeDefined();
             expect(matchedRoutes.length).toEqual(1);
             expect(matchedRoutes).toContain(route);
         });
 
         it('should pass params and allow multiple routes', function() {
-            var r1 = urlParser.addRoute('/{foo}');
-            var r2 = urlParser.addRoute('/{foo}/{bar}');
+            var r1 = byroads.addRoute('/{foo}');
+            var r2 = byroads.addRoute('/{foo}/{bar}');
 
-            var matches = jasmineHelper.getMatches(urlParser, '/lorem_ipsum');
+            var matches = jasmineHelper.getMatches(byroads, '/lorem_ipsum');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -58,7 +58,7 @@ describe('getMatchedRoutes()', function() {
             expect(params.length).toEqual(1);
             expect(params[0]).toEqual('lorem_ipsum');
 
-            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            matches = jasmineHelper.getMatches(byroads, '/maecennas/ullamcor');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -71,10 +71,10 @@ describe('getMatchedRoutes()', function() {
         });
 
         it('should handle a word separator that isn\'t necessarily /', function() {
-            var r1 = urlParser.addRoute('/{foo}_{bar}');
-            var r2 = urlParser.addRoute('/{foo}-{bar}');
+            var r1 = byroads.addRoute('/{foo}_{bar}');
+            var r2 = byroads.addRoute('/{foo}-{bar}');
 
-            var matches = jasmineHelper.getMatches(urlParser, '/lorem_ipsum');
+            var matches = jasmineHelper.getMatches(byroads, '/lorem_ipsum');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -85,7 +85,7 @@ describe('getMatchedRoutes()', function() {
             expect(params[0]).toEqual('lorem');
             expect(params[1]).toEqual('ipsum');
 
-            matches = jasmineHelper.getMatches(urlParser, '/maecennas-ullamcor');
+            matches = jasmineHelper.getMatches(byroads, '/maecennas-ullamcor');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -98,17 +98,17 @@ describe('getMatchedRoutes()', function() {
         });
 
         it('should handle empty routes', function() {
-            var r1 = urlParser.addRoute();
+            var r1 = byroads.addRoute();
 
-            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            var matches = jasmineHelper.getMatches(byroads, '/123/456');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
 
-            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            matches = jasmineHelper.getMatches(byroads, '/maecennas/ullamcor');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
 
-            matches = jasmineHelper.getMatches(urlParser, '');
+            matches = jasmineHelper.getMatches(byroads, '');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -119,17 +119,17 @@ describe('getMatchedRoutes()', function() {
         });
 
         it('should handle empty strings', function() {
-            var r1 = urlParser.addRoute();
+            var r1 = byroads.addRoute();
 
-            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            var matches = jasmineHelper.getMatches(byroads, '/123/456');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
 
-            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            matches = jasmineHelper.getMatches(byroads, '/maecennas/ullamcor');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
 
-            matches = jasmineHelper.getMatches(urlParser, '');
+            matches = jasmineHelper.getMatches(byroads, '');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -140,17 +140,17 @@ describe('getMatchedRoutes()', function() {
         });
 
         it('should route `null` as empty string', function() {
-            var r1 = urlParser.addRoute('');
+            var r1 = byroads.addRoute('');
 
-            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            var matches = jasmineHelper.getMatches(byroads, '/123/456');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
 
-            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            matches = jasmineHelper.getMatches(byroads, '/maecennas/ullamcor');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
 
-            matches = jasmineHelper.getMatches(urlParser);
+            matches = jasmineHelper.getMatches(byroads);
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -166,9 +166,9 @@ describe('getMatchedRoutes()', function() {
     describe('optional params', function() {
 
         it('should capture optional params', function() {
-            var r1 = urlParser.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
+            var r1 = byroads.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
 
-            var matches = jasmineHelper.getMatches(urlParser, 'foo/lorem/123/true/false');
+            var matches = jasmineHelper.getMatches(byroads, 'foo/lorem/123/true/false');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -183,9 +183,9 @@ describe('getMatchedRoutes()', function() {
         });
 
         it('should only pass matched params', function() {
-            var r1 = urlParser.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
+            var r1 = byroads.addRoute('foo/:lorem:/:ipsum:/:dolor:/:sit:');
 
-            var matches = jasmineHelper.getMatches(urlParser, 'foo/lorem/123');
+            var matches = jasmineHelper.getMatches(byroads, 'foo/lorem/123');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -207,9 +207,9 @@ describe('getMatchedRoutes()', function() {
 
         it('should capture groups', function() {
             //capturing groups becomes params
-            var r1 = urlParser.addRoute(/^\/[0-9]+\/([0-9]+)$/);
+            var r1 = byroads.addRoute(/^\/[0-9]+\/([0-9]+)$/);
 
-            var matches = jasmineHelper.getMatches(urlParser, '/123/456');
+            var matches = jasmineHelper.getMatches(byroads, '/123/456');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -219,16 +219,16 @@ describe('getMatchedRoutes()', function() {
             expect(params.length).toEqual(1);
             expect(params[0]).toBe('456');
 
-            matches = jasmineHelper.getMatches(urlParser, '/maecennas/ullamcor');
+            matches = jasmineHelper.getMatches(byroads, '/maecennas/ullamcor');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(0);
         });
 
         it('should capture even empty groups', function() {
             //capturing groups becomes params
-            var r1 = urlParser.addRoute(/^\/()\/([0-9]+)$/);
+            var r1 = byroads.addRoute(/^\/()\/([0-9]+)$/);
 
-            var matches = jasmineHelper.getMatches(urlParser, '//456');
+            var matches = jasmineHelper.getMatches(byroads, '//456');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -246,11 +246,11 @@ describe('getMatchedRoutes()', function() {
     describe('typecast values', function() {
 
         it('should typecast values if shouldTypecast is set to true', function() {
-            urlParser.shouldTypecast = true;
+            byroads.shouldTypecast = true;
 
-            var r1 = urlParser.addRoute('{a}/{b}/{c}/{d}/{e}/{f}');
+            var r1 = byroads.addRoute('{a}/{b}/{c}/{d}/{e}/{f}');
 
-            var matches = jasmineHelper.getMatches(urlParser, 'lorem/123/true/false/null/undefined');
+            var matches = jasmineHelper.getMatches(byroads, 'lorem/123/true/false/null/undefined');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -267,11 +267,11 @@ describe('getMatchedRoutes()', function() {
         });
 
         it('should not typecast if shouldTypecast is set to false', function() {
-            urlParser.shouldTypecast = false;
+            byroads.shouldTypecast = false;
 
-            var r1 = urlParser.addRoute('{lorem}/{ipsum}/{dolor}/{sit}');
+            var r1 = byroads.addRoute('{lorem}/{ipsum}/{dolor}/{sit}');
 
-            var matches = jasmineHelper.getMatches(urlParser, 'lorem/123/true/false');
+            var matches = jasmineHelper.getMatches(byroads, 'lorem/123/true/false');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -291,9 +291,9 @@ describe('getMatchedRoutes()', function() {
     describe('rules.normalize_', function() {
 
         it('should normalize params before dispatching signal', function() {
-            //based on: https://github.com/millermedeiros/urlParser.js/issues/21
+            //based on: https://github.com/millermedeiros/byroads.js/issues/21
 
-            var r1 = urlParser.addRoute('{a}/{b}/:c:/:d:');
+            var r1 = byroads.addRoute('{a}/{b}/:c:/:d:');
             r1.rules = {
                 a: ['news', 'article'],
                 b: /[\-0-9a-zA-Z]+/,
@@ -314,7 +314,7 @@ describe('getMatchedRoutes()', function() {
                 }
             };
 
-            var matches = jasmineHelper.getMatches(urlParser, 'news/111/lorem-ipsum');
+            var matches = jasmineHelper.getMatches(byroads, 'news/111/lorem-ipsum');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -326,7 +326,7 @@ describe('getMatchedRoutes()', function() {
             expect(params[1]).toBe('111');
 
 
-            matches = jasmineHelper.getMatches(urlParser, 'news/foo/222/lorem-ipsum');
+            matches = jasmineHelper.getMatches(byroads, 'news/foo/222/lorem-ipsum');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -338,7 +338,7 @@ describe('getMatchedRoutes()', function() {
             expect(params[1]).toBe('222');
 
 
-            matches = jasmineHelper.getMatches(urlParser, 'news/333');
+            matches = jasmineHelper.getMatches(byroads, 'news/333');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -350,7 +350,7 @@ describe('getMatchedRoutes()', function() {
             expect(params[1]).toBe('333');
 
 
-            matches = jasmineHelper.getMatches(urlParser, 'article/news/444');
+            matches = jasmineHelper.getMatches(byroads, 'article/news/444');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -365,16 +365,16 @@ describe('getMatchedRoutes()', function() {
     });
 
 
-    describe('urlParser.normalizeFn', function() {
+    describe('byroads.normalizeFn', function() {
 
         var prevNorm;
 
         beforeEach(function() {
-            prevNorm = urlParser.normalizeFn;
+            prevNorm = byroads.normalizeFn;
         });
 
         afterEach(function() {
-            urlParser.normalizeFn = prevNorm;
+            byroads.normalizeFn = prevNorm;
         });
 
 
@@ -382,7 +382,7 @@ describe('getMatchedRoutes()', function() {
 
             var t1, t2, t3, t4, t5, t6, t7, t8;
 
-            urlParser.normalizeFn = function(request, vals) {
+            byroads.normalizeFn = function(request, vals) {
                 var id;
                 var idRegex = /^[0-9]+$/;
                 if (vals.a === 'article') {
@@ -397,14 +397,14 @@ describe('getMatchedRoutes()', function() {
                 return ['news', id]; //return params
             };
 
-            var route1 = urlParser.addRoute('news/{b}/:c:/:d:');
+            var route1 = byroads.addRoute('news/{b}/:c:/:d:');
             route1.matched.addOnce(function(a, b) {
                 t1 = a;
                 t2 = b;
             });
             getMatchedRoutes('news/111/lorem-ipsum');
 
-            var route2 = urlParser.addRoute('{a}/{b}/:c:/:d:');
+            var route2 = byroads.addRoute('{a}/{b}/:c:/:d:');
             route2.rules = {
                 a: ['news', 'article'],
                 b: /[\-0-9a-zA-Z]+/,
@@ -431,15 +431,15 @@ describe('getMatchedRoutes()', function() {
 
             var t1, t2;
 
-            urlParser.normalizeFn = function(request, vals) {
+            byroads.normalizeFn = function(request, vals) {
                 //convert params into an array..
                 return [vals.vals_];
             };
 
-            urlParser.addRoute('/{a}/{b}', function(params) {
+            byroads.addRoute('/{a}/{b}', function(params) {
                 t1 = params;
             });
-            urlParser.addRoute('/{a}', function(params) {
+            byroads.addRoute('/{a}', function(params) {
                 t2 = params;
             });
 
@@ -456,8 +456,8 @@ describe('getMatchedRoutes()', function() {
             it('should pass array', function() {
                 var arg;
 
-                urlParser.normalizeFn = urlParser.NORM_AS_ARRAY;
-                urlParser.addRoute('/{a}/{b}', function(a) {
+                byroads.normalizeFn = byroads.NORM_AS_ARRAY;
+                byroads.addRoute('/{a}/{b}', function(a) {
                     arg = a;
                 });
                 getMatchedRoutes('/foo/bar');
@@ -474,8 +474,8 @@ describe('getMatchedRoutes()', function() {
             it('should pass object', function() {
                 var arg;
 
-                urlParser.normalizeFn = urlParser.NORM_AS_OBJECT;
-                urlParser.addRoute('/{a}/{b}', function(a) {
+                byroads.normalizeFn = byroads.NORM_AS_OBJECT;
+                byroads.addRoute('/{a}/{b}', function(a) {
                     arg = a;
                 });
                 getMatchedRoutes('/foo/bar');
@@ -491,8 +491,8 @@ describe('getMatchedRoutes()', function() {
             it('should pass multiple args', function() {
                 var arg1, arg2;
 
-                urlParser.normalizeFn = null;
-                urlParser.addRoute('/{a}/{b}', function(a, b) {
+                byroads.normalizeFn = null;
+                byroads.addRoute('/{a}/{b}', function(a, b) {
                     arg1 = a;
                     arg2 = b;
                 });
@@ -512,12 +512,12 @@ describe('getMatchedRoutes()', function() {
         it('should enforce match order', function() {
             var calls = 0;
 
-            var a = urlParser.addRoute('/{foo}/{bar}');
+            var a = byroads.addRoute('/{foo}/{bar}');
             a.matched.add(function(foo, bar) {
                 throw new Error('shouldn\'t match but matched ' + foo + ' ' + bar);
             });
 
-            var b = urlParser.addRoute('/{foo}/{bar}', null, 1);
+            var b = byroads.addRoute('/{foo}/{bar}', null, 1);
             b.matched.add(function(foo, bar) {
                 expect(foo).toBe('123');
                 expect(bar).toBe('456');
@@ -532,11 +532,11 @@ describe('getMatchedRoutes()', function() {
         it('shouldnt matter if there is a gap between priorities', function() {
             var calls = 0;
 
-            var a = urlParser.addRoute('/{foo}/{bar}', function(foo, bar) {
+            var a = byroads.addRoute('/{foo}/{bar}', function(foo, bar) {
                 throw new Error('shouldn\'t match but matched ' + foo + ' ' + bar);
             }, 4);
 
-            var b = urlParser.addRoute('/{foo}/{bar}', function(foo, bar) {
+            var b = byroads.addRoute('/{foo}/{bar}', function(foo, bar) {
                 expect(foo).toBe('123');
                 expect(bar).toBe('456');
                 calls++;
@@ -557,7 +557,7 @@ describe('getMatchedRoutes()', function() {
 
             var pattern = '{foo}-{bar}';
 
-            var a = urlParser.addRoute(pattern);
+            var a = byroads.addRoute(pattern);
             a.matched.add(function(foo, bar) {
                 expect(foo).toBe('lorem');
                 expect(bar).toBe('123');
@@ -570,7 +570,7 @@ describe('getMatchedRoutes()', function() {
                 }
             };
 
-            var b = urlParser.addRoute(pattern);
+            var b = byroads.addRoute(pattern);
             b.matched.add(function(foo, bar) {
                 expect(foo).toBe('123');
                 expect(bar).toBe('ullamcor');
@@ -592,7 +592,7 @@ describe('getMatchedRoutes()', function() {
         it('should consider invalid rules as not matching', function() {
             var pattern = '{foo}-{bar}';
 
-            var a = urlParser.addRoute(pattern);
+            var a = byroads.addRoute(pattern);
             a.matched.add(function(foo, bar) {
                 throw new Error('first route was matched when it should not have been');
             });
@@ -601,7 +601,7 @@ describe('getMatchedRoutes()', function() {
                 bar: 123
             };
 
-            var b = urlParser.addRoute(pattern);
+            var b = byroads.addRoute(pattern);
             b.matched.add(function(foo, bar) {
                 throw new Error('second route was matched when it should not have been');
             });
@@ -623,25 +623,25 @@ describe('getMatchedRoutes()', function() {
 
             var t1, t2, t3, t4, t5, t6, t7, t8;
 
-            var r1 = urlParser.addRoute('/{a}/{b}/', function(a, b) {
+            var r1 = byroads.addRoute('/{a}/{b}/', function(a, b) {
                 t1 = a;
                 t2 = b;
             });
             r1.greedy = false;
 
-            var r2 = urlParser.addRoute('/bar/{b}/', function(a, b) {
+            var r2 = byroads.addRoute('/bar/{b}/', function(a, b) {
                 t3 = a;
                 t4 = b;
             });
             r2.greedy = true;
 
-            var r3 = urlParser.addRoute('/foo/{b}/', function(a, b) {
+            var r3 = byroads.addRoute('/foo/{b}/', function(a, b) {
                 t5 = a;
                 t6 = b;
             });
             r3.greedy = true;
 
-            var r4 = urlParser.addRoute('/{a}/:b:/', function(a, b) {
+            var r4 = byroads.addRoute('/{a}/:b:/', function(a, b) {
                 t7 = a;
                 t8 = b;
             });
@@ -664,24 +664,24 @@ describe('getMatchedRoutes()', function() {
 
             var t1, t2, t3, t4, t5, t6, t7, t8;
 
-            urlParser.greedy = true;
+            byroads.greedy = true;
 
-            var r1 = urlParser.addRoute('/{a}/{b}/', function(a, b) {
+            var r1 = byroads.addRoute('/{a}/{b}/', function(a, b) {
                 t1 = a;
                 t2 = b;
             });
 
-            var r2 = urlParser.addRoute('/bar/{b}/', function(a, b) {
+            var r2 = byroads.addRoute('/bar/{b}/', function(a, b) {
                 t3 = a;
                 t4 = b;
             });
 
-            var r3 = urlParser.addRoute('/foo/{b}/', function(a, b) {
+            var r3 = byroads.addRoute('/foo/{b}/', function(a, b) {
                 t5 = a;
                 t6 = b;
             });
 
-            var r4 = urlParser.addRoute('/{a}/:b:/', function(a, b) {
+            var r4 = byroads.addRoute('/{a}/:b:/', function(a, b) {
                 t7 = a;
                 t8 = b;
             });
@@ -697,40 +697,40 @@ describe('getMatchedRoutes()', function() {
             expect(t7).toEqual('foo');
             expect(t8).toEqual('lorem');
 
-            urlParser.greedy = false;
+            byroads.greedy = false;
 
         });
 
         describe('greedyEnabled', function() {
 
             afterEach(function() {
-                urlParser.greedyEnabled = true;
+                byroads.greedyEnabled = true;
             });
 
             it('should toggle greedy behavior', function() {
-                urlParser.greedyEnabled = false;
+                byroads.greedyEnabled = false;
 
                 var t1, t2, t3, t4, t5, t6, t7, t8;
 
-                var r1 = urlParser.addRoute('/{a}/{b}/', function(a, b) {
+                var r1 = byroads.addRoute('/{a}/{b}/', function(a, b) {
                     t1 = a;
                     t2 = b;
                 });
                 r1.greedy = false;
 
-                var r2 = urlParser.addRoute('/bar/{b}/', function(a, b) {
+                var r2 = byroads.addRoute('/bar/{b}/', function(a, b) {
                     t3 = a;
                     t4 = b;
                 });
                 r2.greedy = true;
 
-                var r3 = urlParser.addRoute('/foo/{b}/', function(a, b) {
+                var r3 = byroads.addRoute('/foo/{b}/', function(a, b) {
                     t5 = a;
                     t6 = b;
                 });
                 r3.greedy = true;
 
-                var r4 = urlParser.addRoute('/{a}/:b:/', function(a, b) {
+                var r4 = byroads.addRoute('/{a}/:b:/', function(a, b) {
                     t7 = a;
                     t8 = b;
                 });
@@ -758,18 +758,18 @@ describe('getMatchedRoutes()', function() {
 
             var t1, t2, t3, t4, t5, t6, t7, t8;
 
-            urlParser.addRoute('foo', function(a, b) {
+            byroads.addRoute('foo', function(a, b) {
                 t1 = a;
                 t2 = b;
             });
 
-            urlParser.bypassed.add(function(a, b, c) {
+            byroads.bypassed.add(function(a, b, c) {
                 t3 = a;
                 t4 = b;
                 t5 = c;
             });
 
-            urlParser.routed.add(function(a, b, c) {
+            byroads.routed.add(function(a, b, c) {
                 t6 = a;
                 t7 = b;
                 t8 = c;
@@ -797,7 +797,7 @@ describe('getMatchedRoutes()', function() {
         it('should pass rest as a single argument', function() {
             var t1, t2, t3, t4, t5, t6, t7, t8, t9;
 
-            var r = urlParser.addRoute('{a}/{b}/:c*:');
+            var r = byroads.addRoute('{a}/{b}/:c*:');
             r.rules = {
                 a: ['news', 'article'],
                 b: /[\-0-9a-zA-Z]+/,
@@ -842,7 +842,7 @@ describe('getMatchedRoutes()', function() {
             var t1, t2, t3, t4, t5, t6, t7, t8, t9;
 
             // since rest segment is greedy the last segment can't be optional
-            var r = urlParser.addRoute('{a}/{b*}/{c}');
+            var r = byroads.addRoute('{a}/{b*}/{c}');
             r.rules = {
                 a: ['news', 'article'],
                 c: ['add', 'edit']
@@ -885,7 +885,7 @@ describe('getMatchedRoutes()', function() {
         it('should handle multiple rest params even though they dont make sense', function() {
             var calls = 0;
 
-            var r = urlParser.addRoute('{a}/{b*}/{c*}/{d}');
+            var r = byroads.addRoute('{a}/{b*}/{c*}/{d}');
             r.rules = {
                 a: ['news', 'article']
             };
@@ -908,7 +908,7 @@ describe('getMatchedRoutes()', function() {
 
         describe('old syntax', function() {
             it('should only parse query string if using special capturing group', function() {
-                var r = urlParser.addRoute('{a}?{q}#{hash}');
+                var r = byroads.addRoute('{a}?{q}#{hash}');
                 var t1, t2, t3;
                 r.matched.addOnce(function(a, b, c) {
                     t1 = a;
@@ -925,9 +925,9 @@ describe('getMatchedRoutes()', function() {
 
         describe('required query string after required segment', function() {
             it('should parse query string into an object and typecast vals', function() {
-                urlParser.shouldTypecast = true;
+                byroads.shouldTypecast = true;
 
-                var r = urlParser.addRoute('{a}{?b}');
+                var r = byroads.addRoute('{a}{?b}');
                 var t1, t2;
                 r.matched.addOnce(function(a, b) {
                     t1 = a;
@@ -946,9 +946,9 @@ describe('getMatchedRoutes()', function() {
 
         describe('required query string after optional segment', function() {
             it('should parse query string into an object and typecast vals', function() {
-                urlParser.shouldTypecast = true;
+                byroads.shouldTypecast = true;
 
-                var r = urlParser.addRoute(':a:{?b}');
+                var r = byroads.addRoute(':a:{?b}');
                 var t1, t2;
                 r.matched.addOnce(function(a, b) {
                     t1 = a;
@@ -980,9 +980,9 @@ describe('getMatchedRoutes()', function() {
 
         describe('optional query string after required segment', function() {
             it('should parse query string into an object and typecast vals', function() {
-                urlParser.shouldTypecast = true;
+                byroads.shouldTypecast = true;
 
-                var r = urlParser.addRoute('{a}:?b:');
+                var r = byroads.addRoute('{a}:?b:');
                 var t1, t2;
                 r.matched.addOnce(function(a, b) {
                     t1 = a;
@@ -1011,9 +1011,9 @@ describe('getMatchedRoutes()', function() {
 
         describe('optional query string after optional segment', function() {
             it('should parse query string into an object and typecast vals', function() {
-                urlParser.shouldTypecast = true;
+                byroads.shouldTypecast = true;
 
-                var r = urlParser.addRoute(':a::?b:');
+                var r = byroads.addRoute(':a::?b:');
                 var t1, t2;
                 r.matched.addOnce(function(a, b) {
                     t1 = a;
@@ -1042,7 +1042,7 @@ describe('getMatchedRoutes()', function() {
 
         describe('optional query string after required segment without typecasting', function() {
             it('should parse query string into an object and not typecast vals', function() {
-                var r = urlParser.addRoute('{a}:?b:');
+                var r = byroads.addRoute('{a}:?b:');
                 var t1, t2;
 
                 r.matched.addOnce(function(a, b) {

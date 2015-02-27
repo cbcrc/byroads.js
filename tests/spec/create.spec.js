@@ -1,21 +1,21 @@
 /*jshint onevar:false */
 
 //for node
-var urlParser = urlParser || require('../../dist/byroads');
-var jasmineHelper = jasmineHelper || require('../lib/jasmine-jasmineHelper');
+var byroads = byroads || require('../../dist/byroads');
+var jasmineHelper = jasmineHelper || require('../lib/jasmine-helper');
 //end node
 
-describe('urlParser.create()', function(){
+describe('byroads.create()', function(){
 
     afterEach(function(){
-        urlParser.removeAllRoutes();
+        byroads.removeAllRoutes();
     });
 
 
     describe('new Router instance', function(){
 
         it('should work in new instances', function(){
-            var parser = urlParser.create();
+            var parser = byroads.create();
 
             var r1 = parser.addRoute('/{foo}');
 
@@ -32,12 +32,12 @@ describe('urlParser.create()', function(){
 
 
         it('shouldn\'t affect static instance', function(){
-            var parser = urlParser.create();
+            var parser = byroads.create();
 
-            var r2 = urlParser.addRoute('/{foo}');
+            var r2 = byroads.addRoute('/{foo}');
             var r1 = parser.addRoute('/{foo}');
 
-            expect(urlParser.getNumRoutes()).toEqual(1);
+            expect(byroads.getNumRoutes()).toEqual(1);
             expect(parser.getNumRoutes()).toEqual(1);
 
             var matches = jasmineHelper.getMatches(parser, '/lorem_ipsum');
@@ -53,15 +53,15 @@ describe('urlParser.create()', function(){
 
 
         it('shouldn\'t be affected by static instance', function(){
-            var parser = urlParser.create();
+            var parser = byroads.create();
 
-            var r1 = urlParser.addRoute('/{foo}');
+            var r1 = byroads.addRoute('/{foo}');
             var r2 = parser.addRoute('/{foo}');
 
-            expect(urlParser.getNumRoutes()).toEqual(1);
+            expect(byroads.getNumRoutes()).toEqual(1);
             expect(parser.getNumRoutes()).toEqual(1);
 
-            var matches = jasmineHelper.getMatches(urlParser, '/lorem_ipsum');
+            var matches = jasmineHelper.getMatches(byroads, '/lorem_ipsum');
             expect(matches).toBeDefined();
             expect(matches.length).toEqual(1);
             var matchedRoutes = jasmineHelper.toRoutes(matches);
@@ -74,7 +74,7 @@ describe('urlParser.create()', function(){
 
 
         it('should allow a different lexer per router', function () {
-            var cr = urlParser.create();
+            var cr = byroads.create();
             var count = 0;
             cr.patternLexer = {
                 getParamIds : function(){
@@ -100,7 +100,7 @@ describe('urlParser.create()', function(){
             cr.parse('foo-bar');
             expect( count ).toEqual( 1 );
             expect( vals ).toEqual( [123, 456] );
-            expect( cr.patternLexer ).not.toBe( urlParser.patternLexer );
+            expect( cr.patternLexer ).not.toBe( byroads.patternLexer );
         });
 
 

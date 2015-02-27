@@ -1,7 +1,7 @@
 /*jshint onevar:false */
 
 //for node
-var urlParser = urlParser || require('../../dist/byroads');
+var byroads = byroads || require('../../dist/byroads');
 //end node
 
 
@@ -11,14 +11,14 @@ describe('Match', function(){
     var _prevCase;
 
     beforeEach(function(){
-        _prevTypecast = urlParser.shouldTypecast;
-        _prevCase = urlParser.ignoreCase;
+        _prevTypecast = byroads.shouldTypecast;
+        _prevCase = byroads.ignoreCase;
     });
 
     afterEach(function(){
-        urlParser.removeAllRoutes();
-        urlParser.shouldTypecast = _prevTypecast;
-        urlParser.ignoreCase = _prevCase;
+        byroads.removeAllRoutes();
+        byroads.shouldTypecast = _prevTypecast;
+        byroads.ignoreCase = _prevCase;
     });
 
 
@@ -26,7 +26,7 @@ describe('Match', function(){
 
 
     it('should match simple string', function(){
-        var r1 = urlParser.addRoute('/lorem-ipsum');
+        var r1 = byroads.addRoute('/lorem-ipsum');
 
         expect( r1.match('/lorem-ipsum') ).toBe( true );
         expect( r1.match('/lorem-ipsum/') ).toBe( true );
@@ -34,7 +34,7 @@ describe('Match', function(){
     });
 
     it('should ignore trailing slash on pattern', function(){
-        var r1 = urlParser.addRoute('/lorem-ipsum/');
+        var r1 = byroads.addRoute('/lorem-ipsum/');
 
         expect( r1.match('/lorem-ipsum') ).toBe( true );
         expect( r1.match('/lorem-ipsum/') ).toBe( true );
@@ -42,7 +42,7 @@ describe('Match', function(){
     });
 
     it('should match params', function(){
-        var s = urlParser.addRoute('/{foo}');
+        var s = byroads.addRoute('/{foo}');
 
         expect( s.match('/lorem-ipsum') ).toBe( true );
         expect( s.match('/lorem-ipsum/') ).toBe( true );
@@ -55,7 +55,7 @@ describe('Match', function(){
     });
 
     it('should match optional params', function(){
-        var s = urlParser.addRoute(':bar:');
+        var s = byroads.addRoute(':bar:');
         expect( s.match('lorem-ipsum') ).toBe( true );
         expect( s.match('') ).toBe( true );
         expect( s.match('lorem-ipsum/dolor') ).toBe( false );
@@ -63,7 +63,7 @@ describe('Match', function(){
     });
 
     it('should match normal params and optional params', function(){
-        var s = urlParser.addRoute('/{foo}/:bar:');
+        var s = byroads.addRoute('/{foo}/:bar:');
         expect( s.match('/lorem-ipsum') ).toBe( true );
         expect( s.match('/lorem-ipsum/') ).toBe( true );
         expect( s.match('/lorem-ipsum/dolor') ).toBe( true );
@@ -71,25 +71,25 @@ describe('Match', function(){
     });
 
     it('should work even with optional params on the middle of pattern', function(){
-        var a = urlParser.addRoute('/{foo}/:bar:/{ipsum}'); //bad use!
+        var a = byroads.addRoute('/{foo}/:bar:/{ipsum}'); //bad use!
         expect( a.match('/123/45/asd') ).toBe( true );
         expect( a.match('/123/asd') ).toBe( true );
 
-        var b = urlParser.addRoute('/{foo}:bar:{ipsum}'); //bad use!
+        var b = byroads.addRoute('/{foo}:bar:{ipsum}'); //bad use!
         expect( b.match('/123/45/asd') ).toBe( true );
         expect( b.match('/123/45') ).toBe( true );
 
-        var c = urlParser.addRoute('/{foo}:bar:/ipsum');
+        var c = byroads.addRoute('/{foo}:bar:/ipsum');
         expect( c.match('/123/45/ipsum') ).toBe( true );
         expect( c.match('/123/ipsum') ).toBe( true );
 
-        var d = urlParser.addRoute('/{foo}:bar:ipsum'); //weird use!
+        var d = byroads.addRoute('/{foo}:bar:ipsum'); //weird use!
         expect( d.match('/123/ipsum') ).toBe( true );
         expect( d.match('/123/45/ipsum') ).toBe( true );
     });
 
     it('should support multiple consecutive optional params', function(){
-        var s = urlParser.addRoute('/123/:bar:/:ipsum:');
+        var s = byroads.addRoute('/123/:bar:/:ipsum:');
         expect( s.match('/123') ).toBe( true );
         expect( s.match('/123/') ).toBe( true );
         expect( s.match('/123/asd') ).toBe( true );
@@ -99,7 +99,7 @@ describe('Match', function(){
     });
 
     it('should not be case sensitive by default', function () {
-        var s = urlParser.addRoute('foo/bar');
+        var s = byroads.addRoute('foo/bar');
         expect( s.match('foo') ).toBe( false );
         expect( s.match('Foo') ).toBe( false );
         expect( s.match('foo/bar') ).toBe( true );
@@ -108,9 +108,9 @@ describe('Match', function(){
     });
 
     it('should be allow toggling case sensitivity', function () {
-        urlParser.ignoreCase = true;
+        byroads.ignoreCase = true;
 
-        var s = urlParser.addRoute('foo/bar');
+        var s = byroads.addRoute('foo/bar');
         expect( s.match('foo') ).toBe( false );
         expect( s.match('Foo') ).toBe( false );
         expect( s.match('foo/bar') ).toBe( true );
@@ -120,7 +120,7 @@ describe('Match', function(){
 
     describe('rest params', function () {
         it('should support rest params', function () {
-            var s = urlParser.addRoute('/123/{bar}/:ipsum*:');
+            var s = byroads.addRoute('/123/{bar}/:ipsum*:');
             expect( s.match('/123') ).toBe( false );
             expect( s.match('/123/') ).toBe( false );
             expect( s.match('/123/asd') ).toBe( true );
@@ -131,7 +131,7 @@ describe('Match', function(){
         });
 
         it('should work even in the middle of pattern', function () {
-            var s = urlParser.addRoute('/foo/:bar*:/edit');
+            var s = byroads.addRoute('/foo/:bar*:/edit');
             expect( s.match('/foo') ).toBe( false );
             expect( s.match('/foo/') ).toBe( false );
             expect( s.match('/foo/edit') ).toBe( true );
@@ -145,7 +145,7 @@ describe('Match', function(){
 
     describe('query string', function () {
         it('should match query string as first segment', function () {
-            var r = urlParser.addRoute('{?q}');
+            var r = byroads.addRoute('{?q}');
             expect( r.match('') ).toBe( false );
             expect( r.match('foo') ).toBe( false );
             expect( r.match('/foo') ).toBe( false );
@@ -157,7 +157,7 @@ describe('Match', function(){
         });
 
         it('should match optional query string as first segment', function () {
-            var r = urlParser.addRoute(':?q:');
+            var r = byroads.addRoute(':?q:');
             expect( r.match('') ).toBe( true );
             expect( r.match('foo') ).toBe( false );
             expect( r.match('/foo') ).toBe( false );
@@ -169,7 +169,7 @@ describe('Match', function(){
         });
 
         it('should match query string as 2nd segment', function () {
-            var r = urlParser.addRoute('{a}{?q}');
+            var r = byroads.addRoute('{a}{?q}');
             expect( r.match('') ).toBe( false );
             expect( r.match('foo') ).toBe( false );
             expect( r.match('/foo') ).toBe( false );
@@ -181,7 +181,7 @@ describe('Match', function(){
         });
 
         it('should match optional query string as 2nd segment', function () {
-            var r = urlParser.addRoute('{a}:?q:');
+            var r = byroads.addRoute('{a}:?q:');
             expect( r.match('') ).toBe( false );
             expect( r.match('foo') ).toBe( true );
             expect( r.match('/foo') ).toBe( true );
@@ -195,7 +195,7 @@ describe('Match', function(){
         it('should match query string as middle segment', function () {
             //if hash is required should use the literal "#" to avoid matching
             //the last char of string as a string "foo?foo" shouldn't match
-            var r = urlParser.addRoute('{a}{?q}#{hash}');
+            var r = byroads.addRoute('{a}{?q}#{hash}');
             expect( r.match('') ).toBe( false );
             expect( r.match('foo') ).toBe( false );
             expect( r.match('/foo') ).toBe( false );
@@ -208,7 +208,7 @@ describe('Match', function(){
         });
 
         it('should match optional query string as middle segment', function () {
-            var r = urlParser.addRoute('{a}:?q::hash:');
+            var r = byroads.addRoute('{a}:?q::hash:');
             expect( r.match('') ).toBe( false );
             expect( r.match('foo') ).toBe( true );
             expect( r.match('/foo') ).toBe( true );
@@ -222,7 +222,7 @@ describe('Match', function(){
         });
 
         it('should match query string even if not using the special query syntax', function () {
-            var r = urlParser.addRoute('{a}?{q}#{hash}');
+            var r = byroads.addRoute('{a}?{q}#{hash}');
             expect( r.match('') ).toBe( false );
             expect( r.match('foo') ).toBe( false );
             expect( r.match('/foo') ).toBe( false );
@@ -240,7 +240,7 @@ describe('Match', function(){
 
         describe('between required params', function(){
             it('after other param', function(){
-                var a = urlParser.addRoute('{bar}{ipsum}');
+                var a = byroads.addRoute('{bar}{ipsum}');
 
                 expect( a.match('123') ).toBe( false );
                 expect( a.match('123/') ).toBe( false );
@@ -254,7 +254,7 @@ describe('Match', function(){
 
         describe('between optional params', function(){
             it('optional after other optional param', function(){
-                var a = urlParser.addRoute(':bar::ipsum:');
+                var a = byroads.addRoute(':bar::ipsum:');
                 expect( a.match('123') ).toBe( true );
                 expect( a.match('123/') ).toBe( true );
                 expect( a.match('123/asd') ).toBe( true );
@@ -268,12 +268,12 @@ describe('Match', function(){
         describe('mixed', function(){
 
             it('between normal + optional', function(){
-                var a = urlParser.addRoute('/{foo}:bar:');
+                var a = byroads.addRoute('/{foo}:bar:');
                 expect( a.match('/lorem-ipsum/dolor') ).toBe( true );
             });
 
             it('between normal + optional*2', function(){
-                var b = urlParser.addRoute('/{foo}:bar::ipsum:');
+                var b = byroads.addRoute('/{foo}:bar::ipsum:');
                 expect( b.match('/123') ).toBe( true );
                 expect( b.match('/123/asd') ).toBe( true );
                 expect( b.match('/123/asd/') ).toBe( true );
@@ -284,7 +284,7 @@ describe('Match', function(){
             });
 
             it('with slashes all', function(){
-                var c = urlParser.addRoute('bar/{foo}/:bar:/:ipsum:');
+                var c = byroads.addRoute('bar/{foo}/:bar:/:ipsum:');
                 expect( c.match('bar/123') ).toBe( true );
                 expect( c.match('bar/123/') ).toBe( true );
                 expect( c.match('bar/123/asd') ).toBe( true );
@@ -295,7 +295,7 @@ describe('Match', function(){
             });
 
             it('required param after \\w/', function(){
-                var a = urlParser.addRoute('/123/{bar}{ipsum}');
+                var a = byroads.addRoute('/123/{bar}{ipsum}');
                 expect( a.match('/123') ).toBe( false );
                 expect( a.match('/123/') ).toBe( false );
                 expect( a.match('/123/asd') ).toBe( false );
@@ -306,7 +306,7 @@ describe('Match', function(){
             });
 
             it('optional params after \\w/', function(){
-                var a = urlParser.addRoute('/123/:bar::ipsum:');
+                var a = byroads.addRoute('/123/:bar::ipsum:');
                 expect( a.match('/123') ).toBe( true );
                 expect( a.match('/123/') ).toBe( true );
                 expect( a.match('/123/asd') ).toBe( true );
@@ -324,7 +324,7 @@ describe('Match', function(){
     describe('slash is required between word and param', function(){
 
         it('required param after \\w', function(){
-            var a = urlParser.addRoute('/123{bar}{ipsum}');
+            var a = byroads.addRoute('/123{bar}{ipsum}');
             expect( a.match('/123') ).toBe( false );
             expect( a.match('/123/') ).toBe( false );
             expect( a.match('/123/asd') ).toBe( false );
@@ -341,7 +341,7 @@ describe('Match', function(){
         });
 
         it('optional param after \\w', function(){
-            var a = urlParser.addRoute('/123:bar::ipsum:');
+            var a = byroads.addRoute('/123:bar::ipsum:');
             expect( a.match('/123') ).toBe( true );
             expect( a.match('/123/') ).toBe( true );
             expect( a.match('/123/asd') ).toBe( true );
@@ -363,31 +363,31 @@ describe('Match', function(){
     describe('strict slash rules', function () {
 
         afterEach(function(){
-            urlParser.patternLexer.loose();
+            byroads.patternLexer.loose();
         });
 
         it('should only match if traling slashes match the original pattern', function () {
-            urlParser.patternLexer.strict();
+            byroads.patternLexer.strict();
 
-            var a = urlParser.addRoute('{foo}');
+            var a = byroads.addRoute('{foo}');
             expect( a.match('foo') ).toBe( true );
             expect( a.match('/foo') ).toBe( false );
             expect( a.match('foo/') ).toBe( false );
             expect( a.match('/foo/') ).toBe( false );
 
-            var b = urlParser.addRoute('/{foo}');
+            var b = byroads.addRoute('/{foo}');
             expect( b.match('foo') ).toBe( false );
             expect( b.match('/foo') ).toBe( true );
             expect( b.match('foo/') ).toBe( false );
             expect( b.match('/foo/') ).toBe( false );
 
-            var c = urlParser.addRoute('');
+            var c = byroads.addRoute('');
             expect( c.match() ).toBe( true );
             expect( c.match('') ).toBe( true );
             expect( c.match('/') ).toBe( false );
             expect( c.match('foo') ).toBe( false );
 
-            var d = urlParser.addRoute('/');
+            var d = byroads.addRoute('/');
             expect( d.match() ).toBe( false );
             expect( d.match('') ).toBe( false );
             expect( d.match('/') ).toBe( true );
@@ -400,17 +400,17 @@ describe('Match', function(){
     describe('loose slash rules', function () {
 
         beforeEach(function(){
-            urlParser.patternLexer.loose();
+            byroads.patternLexer.loose();
         });
 
         it('should treat single slash and empty string as same', function () {
-            var c = urlParser.addRoute('');
+            var c = byroads.addRoute('');
             expect( c.match() ).toBe( true );
             expect( c.match('') ).toBe( true );
             expect( c.match('/') ).toBe( true );
             expect( c.match('foo') ).toBe( false );
 
-            var d = urlParser.addRoute('/');
+            var d = byroads.addRoute('/');
             expect( d.match() ).toBe( true );
             expect( d.match('') ).toBe( true );
             expect( d.match('/') ).toBe( true );
@@ -422,21 +422,21 @@ describe('Match', function(){
     describe('legacy slash rules', function () {
 
         beforeEach(function(){
-            urlParser.patternLexer.legacy();
+            byroads.patternLexer.legacy();
         });
 
         afterEach(function(){
-            urlParser.patternLexer.loose();
+            byroads.patternLexer.loose();
         });
 
         it('should treat single slash and empty string as same', function () {
-            var c = urlParser.addRoute('');
+            var c = byroads.addRoute('');
             expect( c.match() ).toBe( true );
             expect( c.match('') ).toBe( true );
             expect( c.match('/') ).toBe( true );
             expect( c.match('foo') ).toBe( false );
 
-            var d = urlParser.addRoute('/');
+            var d = byroads.addRoute('/');
             expect( d.match() ).toBe( true );
             expect( d.match('') ).toBe( true );
             expect( d.match('/') ).toBe( true );
@@ -444,14 +444,14 @@ describe('Match', function(){
         });
 
         it('slash at end of string is optional', function () {
-            var a = urlParser.addRoute('/foo');
+            var a = byroads.addRoute('/foo');
             expect( a.match('/foo') ).toEqual( true );
             expect( a.match('/foo/') ).toEqual( true );
             expect( a.match('/foo/bar') ).toEqual( false );
         });
 
         it('slash at begin of string is required', function () {
-            var a = urlParser.addRoute('/foo');
+            var a = byroads.addRoute('/foo');
             expect( a.match('/foo') ).toEqual( true );
             expect( a.match('/foo/') ).toEqual( true );
             expect( a.match('foo') ).toEqual( false );
@@ -467,7 +467,7 @@ describe('Match', function(){
         describe('basic rules', function(){
 
             it('should allow array options', function(){
-                var s = urlParser.addRoute('/{foo}/{bar}');
+                var s = byroads.addRoute('/{foo}/{bar}');
                 s.rules = {
                     foo : ['lorem-ipsum', '123'],
                     bar : ['DoLoR', '45']
@@ -484,9 +484,9 @@ describe('Match', function(){
             });
 
             it('should change array validation behavior when ignoreCase is false', function(){
-                urlParser.ignoreCase = false;
+                byroads.ignoreCase = false;
 
-                var s = urlParser.addRoute('/{foo}/{bar}');
+                var s = byroads.addRoute('/{foo}/{bar}');
 
                 s.rules = {
                     foo : ['lorem-ipsum', '123'],
@@ -507,7 +507,7 @@ describe('Match', function(){
 
 
             it('should allow RegExp options', function(){
-                var s = urlParser.addRoute('/{foo}/{bar}');
+                var s = byroads.addRoute('/{foo}/{bar}');
 
                 s.rules = {
                     foo : /(^[a-z0-9\-]+$)/,
@@ -523,7 +523,7 @@ describe('Match', function(){
             });
 
             it('should allow function rule', function(){
-                var s = urlParser.addRoute('/{foo}/{bar}/{ipsum}');
+                var s = byroads.addRoute('/{foo}/{bar}/{ipsum}');
                 s.rules = {
                     foo : function(val, request, params){
                         return (val === 'lorem-ipsum' || val === '123');
@@ -546,7 +546,7 @@ describe('Match', function(){
             });
 
             it('should work with mixed rules', function(){
-                var s = urlParser.addRoute('/{foo}/{bar}/{ipsum}');
+                var s = byroads.addRoute('/{foo}/{bar}/{ipsum}');
                 s.rules = {
                     foo : function(val, request, params){
                         return (val === 'lorem-ipsum' || val === '123');
@@ -565,7 +565,7 @@ describe('Match', function(){
 
             it('should only check rules of optional segments if param exists', function(){
 
-                var a = urlParser.addRoute('/123/:a:/:b:/:c:');
+                var a = byroads.addRoute('/123/:a:/:b:/:c:');
                 a.rules = {
                     a : /^\w+$/,
                     b : function(val){
@@ -590,9 +590,9 @@ describe('Match', function(){
 
 
             it('should work with shouldTypecast=false', function(){
-                var s = urlParser.addRoute('/{foo}/{bar}/{ipsum}');
+                var s = byroads.addRoute('/{foo}/{bar}/{ipsum}');
 
-                urlParser.shouldTypecast = false;
+                byroads.shouldTypecast = false;
 
                 s.rules = {
                     foo : function(val, request, params){
@@ -616,7 +616,7 @@ describe('Match', function(){
         describe('query string', function () {
 
             it('should validate with array', function () {
-                var r = urlParser.addRoute('/foo.php{?query}');
+                var r = byroads.addRoute('/foo.php{?query}');
                 r.rules = {
                     '?query' : ['lorem=ipsum&dolor=456', 'amet=789']
                 };
@@ -626,7 +626,7 @@ describe('Match', function(){
             });
 
             it('should validate with RegExp', function () {
-                var r = urlParser.addRoute('/foo.php{?query}');
+                var r = byroads.addRoute('/foo.php{?query}');
                 r.rules = {
                     '?query' : /^lorem=\w+&dolor=\d+$/
                 };
@@ -636,9 +636,9 @@ describe('Match', function(){
             });
 
             it('should validate with Function', function () {
-                var r = urlParser.addRoute('/foo.php{?query}');
+                var r = byroads.addRoute('/foo.php{?query}');
 
-                urlParser.shouldTypecast = true;
+                byroads.shouldTypecast = true;
 
                 r.rules = {
                     '?query' : function(val, req, vals){
@@ -657,7 +657,7 @@ describe('Match', function(){
 
             it('should work with string pattern', function(){
 
-                var s = urlParser.addRoute('/{foo}/{bar}/{ipsum}');
+                var s = byroads.addRoute('/{foo}/{bar}/{ipsum}');
 
                 s.rules = {
                     0 : ['lorem-ipsum', '123'],
@@ -679,7 +679,7 @@ describe('Match', function(){
 
             it('should work with RegExp pattern', function(){
 
-                var s = urlParser.addRoute(/([\-\w]+)\/([\-\w]+)\/([\-\w]+)/);
+                var s = byroads.addRoute(/([\-\w]+)\/([\-\w]+)\/([\-\w]+)/);
 
                 s.rules = {
                     0 : ['lorem-ipsum', '123'],
@@ -705,7 +705,7 @@ describe('Match', function(){
         describe('request_', function(){
 
             it('should validate whole request', function(){
-                var s = urlParser.addRoute(/^([a-z0-9]+)$/);
+                var s = byroads.addRoute(/^([a-z0-9]+)$/);
                 s.rules = {
                     request_ : function(request){ //this gets executed after all other validations
                         return request !== '555';
@@ -719,7 +719,7 @@ describe('Match', function(){
             });
 
             it('should execute after other rules', function(){
-                var s = urlParser.addRoute('/{foo}/{bar}/{ipsum}');
+                var s = byroads.addRoute('/{foo}/{bar}/{ipsum}');
                 s.rules = {
                     foo : function(val, request, params){
                         return (val === 'lorem-ipsum' || val === '123');
@@ -740,7 +740,7 @@ describe('Match', function(){
             });
 
             it('can be an array', function(){
-                var s = urlParser.addRoute(/^([a-z0-9]+)$/);
+                var s = byroads.addRoute(/^([a-z0-9]+)$/);
                 s.rules = {
                     request_ : ['lorem', '123']
                 };
@@ -752,7 +752,7 @@ describe('Match', function(){
             });
 
             it('can be a RegExp', function(){
-                var s = urlParser.addRoute(/^([a-z0-9]+)$/);
+                var s = byroads.addRoute(/^([a-z0-9]+)$/);
                 s.rules = {
                     request_ : /^(lorem|123)$/
                 };
@@ -764,7 +764,7 @@ describe('Match', function(){
             });
 
             it('should work with optional params', function(){
-                var s = urlParser.addRoute(':foo:');
+                var s = byroads.addRoute(':foo:');
                 s.rules = {
                     request_ : /^(lorem|123|)$/ //empty also matches!
                 };
@@ -785,7 +785,7 @@ describe('Match', function(){
             it('should ignore normalize_ since it isn\'t a validation rule', function () {
 
                 var calledNormalize = false;
-                var s = urlParser.addRoute('/{foo}/{bar}/{ipsum}');
+                var s = byroads.addRoute('/{foo}/{bar}/{ipsum}');
                 s.rules = {
                      foo : function(val, request, params){
                          return (val === 'lorem-ipsum' || val === '123');

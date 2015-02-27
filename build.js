@@ -37,7 +37,7 @@ function build(){
         deploy = tmpl(wrapper, {
             LICENSE       : readFile(SRC_DIR + '/license.txt'),
             INTRO_JS      : readFile(SRC_DIR + '/intro.js'),
-            URLPARSER_JS : readFile(SRC_DIR + '/byroads.js'),
+            byroads_JS : readFile(SRC_DIR + '/byroads.js'),
             ROUTE_JS      : readFile(SRC_DIR + '/route.js'),
             LEXER_JS      : readFile(SRC_DIR + '/pattern-lexer.js')
         }, /\/\/::(\w+)::\/\//g);
