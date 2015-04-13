@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/W3Max/byroads.svg?branch=master)](https://travis-ci.org/W3Max/byroads)
+[![Build Status](https://travis-ci.org/Allov/byroads.svg?branch=master)](https://travis-ci.org/Allov/byroads)
 
 
 

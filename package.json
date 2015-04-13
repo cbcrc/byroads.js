@@ -2,19 +2,19 @@
     "name" : "byroads.js",
     "description" : "Url pattern matching (lexer) that return result(s) based the order they were added or a overriding priority.",
     "keywords" : ["routes", "url", "parser", "lexer", "router"],
-    "homepage" : "https://github.com/W3Max/byroads.js",
+    "homepage" : "https://github.com/cbcrc/byroads.js",
     "version" : "0.1.0",
     "author" : {
         "name" : "Maxime Séguin",
-        "url" : "https://twitter.com/w3max"
+        "url" : "https://github.com/cbcrc"
     },
     "repository" : {
         "type" : "git",
-        "url" : "https://github.com/W3Max/byroads.js.git"
+        "url" : "https://github.com/cbcrc/byroads.js.git"
     },
     "main" : "dist/byroads.js",
     "bugs" : {
-        "url" : "https://github.com/W3Max/byroads.js/issues"
+        "url" : "https://github.com/cbcrc/byroads.js/issues"
     },
     "licenses" : [
         {

@@ -1,88 +1,89 @@
+// Byroads --------
+//====================
 
-    // Byroads --------
-    //====================
+/**
+ * @constructor
+ */
+function Byroads() {
+    this._routes = [];
+}
 
-    /**
-     * @constructor
-     */
-    function Byroads() {
-        this._routes = [];
-    }
+Byroads.prototype = {
 
-    Byroads.prototype = {
+    ignoreCase: true,
 
-        ignoreCase : true,
+    shouldTypecast: false,
 
-        shouldTypecast : false,
+    normalizeFn: null,
 
-        normalizeFn : null,
+    create: function() {
+        return new Byroads();
+    },
 
-        create : function () {
-            return new Byroads();
-        },
+    addRoute: function(pattern, priority) {
+        var route = new Route(pattern, priority, this);
+        this._sortedInsert(route);
+        return route;
+    },
 
-        addRoute : function (pattern, priority) {
-            var route = new Route(pattern, priority, this);
-            this._sortedInsert(route);
-            return route;
-        },
+    removeRoute: function(route) {
+        arrayRemove(this._routes, route);
+    },
 
-        removeRoute : function (route) {
-            arrayRemove(this._routes, route);
-        },
+    removeAllRoutes: function() {
+        this._routes.length = 0;
+    },
 
-        removeAllRoutes : function () {
-            this._routes.length = 0;
-        },
+    getNumRoutes: function() {
+        return this._routes.length;
+    },
 
-        getNumRoutes : function () {
-            return this._routes.length;
-        },
+    _sortedInsert: function(route) {
+        //simplified insertion sort
+        var routes = this._routes,
+            n = routes.length;
+        do {
+            --n;
+        } while (routes[n] && route._priority <= routes[n]._priority);
+        routes.splice(n + 1, 0, route);
+    },
 
-        _sortedInsert : function (route) {
-            //simplified insertion sort
-            var routes = this._routes,
-                n = routes.length;
-            do { --n; } while (routes[n] && route._priority <= routes[n]._priority);
-            routes.splice(n+1, 0, route);
-        },
+    getMatchedRoutes: function(request, returnAllMatchedRoutes) {
+        request = request || '';
 
-        getMatchedRoutes : function (request, returnAllMatchedRoutes) {
-            request = request || '';
+        var res = [],
+            routes = this._routes,
+            n = routes.length,
+            route;
 
-            var res = [],
-                routes = this._routes,
-                n = routes.length,
-                route;
-                
-            //should be decrement loop since higher priorities are added at the end of array
-            while (route = routes[--n]) {
-                if ((!res.length || returnAllMatchedRoutes) && route.match(request)) {
-                    res.push({
-                        route : route,
-                        params : route._getParamsArray(request)
-                    });
-                }
-                if (!returnAllMatchedRoutes && res.length) {
-                    break;
-                }
+        //should be decrement loop since higher priorities are added at the end of array
+        while (route = routes[--n]) {
+            if ((!res.length || returnAllMatchedRoutes) && route.match(request)) {
+                res.push({
+                    route: route,
+                    params: route._getParamsArray(request)
+                });
             }
-            return res;
-        },
-
-        toString : function () {
-            return '[byroads numRoutes:'+ this.getNumRoutes() +']';
+            if (!returnAllMatchedRoutes && res.length) {
+                break;
+            }
         }
-    };
+        return res;
+    },
 
-    //"static" instance
-    byroads = new Byroads();
-    byroads.VERSION = '::VERSION_NUMBER::';
+    toString: function() {
+        return '[byroads numRoutes:' + this.getNumRoutes() + ']';
+    }
+};
 
-    byroads.NORM_AS_ARRAY = function (req, vals) {
-        return [vals.vals_];
-    };
+//"static" instance
+byroads = new Byroads();
+byroads.VERSION = '::VERSION_NUMBER::';
 
-    byroads.NORM_AS_OBJECT = function (req, vals) {
-        return [vals];
-    };
+byroads.NORM_AS_ARRAY = function(req, vals) {
+    return [vals.vals_];
+};
+
+byroads.NORM_AS_OBJECT = function(req, vals) {
+    return [vals];
+};
